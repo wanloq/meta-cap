@@ -1,0 +1,137 @@
+{
+  "Kitchen Tasks": [
+    "Arrangement of washed dishes",
+    "Bringing out washed dishes",
+    "Build a Sandwich / Salad / Plate a Dish",
+    "Dish washing",
+    "Fridge & Pantry Audit",
+    "Loading a dish washer",
+    "Putting Away Organized Dishes",
+    "Putting Groceries Away",
+    "Washing bowls with bar soap and foam sponge",
+    "Washing bowls with bar soap and native sponge",
+    "Washing bowls with bar soap and threadlike sponge",
+    "Washing bowls with bar soap in dish and threadlike sponge",
+    "Washing bowls with liquid soap and threadlike sponge",
+    "Washing dishes with bar soap and threadlike sponge",
+    "Washing dishes with bar soap in dish and foam sponge",
+    "Washing kitchenware with bar soap in dish and threadlike sponge",
+    "Washing other types of kitchenware with bar soap and threadlike sponge",
+    "Washing other types of kitchenware with bar soap in dish and foam sponge",
+    "Washing other types of kitchenware with liquid soap and threadlike sponge",
+    "Washing using native sponge (dried loofah)",
+    "Washing with foam sponge",
+    "Washing with native sponge",
+    "Wipe Kitchen Surfaces",
+    "Other"
+  ],
+  "Childcare & Nursery": [
+    "Bottle/Formula Prep",
+    "Installing Cabinet/Drawer Locks",
+    "Installing outlet covers",
+    "Restock First",
+    "Stroller Fold/Unfold & Car Seat Install",
+    "Toy pickup & Organization",
+    "Other"
+  ],
+  "Drinks & Cocktails": [
+    "Other"
+  ],
+  "Home events and hosting": [
+    "Party Cleanup",
+    "Party Setup & Takedown",
+    "Other"
+  ],
+  "Home Item Organisation": [
+    "Desk Tidy & Cable Management",
+    "Labeling and Inventory Boxes",
+    "Organize a Junk",
+    "Shelve books",
+    "Station Setup & Reorganization",
+    "Other"
+  ],
+  "Home Safety & Childproofing": [
+    "Installing Cabinet/Drawer Locks",
+    "Installing outlet covers",
+    "Testing Smoke/CO Detectors",
+    "Other"
+  ],
+  "House Maintenance": [
+    "Drilling",
+    "Furniture Assembly and Disassembly",
+    "Hanging of Curtain",
+    "Paint walls",
+    "Replace showerhead / faucet aerator",
+    "Tighten cabinet hinges and knob",
+    "TV Wall Mounting",
+    "Other"
+  ],
+  "Laundry Tasks": [
+    "Collecting Clothes Into a Hamper",
+    "Duvet into cover / change sheets / make bed",
+    "Folding & Hanging Clothes by Category",
+    "Hanging clothes on hangers",
+    "Stain treatment and hand-wash",
+    "Unloading the Laundry Machine",
+    "Other"
+  ],
+  "Moving and Packing": [
+    "Labeling and Inventory Boxes",
+    "Packing Boxes for a Move",
+    "Unpacking & Unboxing(New Home)",
+    "Vehicle Loading & Organization",
+    "Other"
+  ],
+  "Party Décor": [
+    "Party Setup & Takedown",
+    "Other"
+  ],
+  "Patio Activities": [
+    "Bike Wash & Detail",
+    "Gardening",
+    "Leaf Raking and Bagging",
+    "Pool cleaning (skim surface)",
+    "Pressure wash patio",
+    "Pull weeds by hand",
+    "Sweep the porch/ patio/ deck",
+    "Trim a hedge / prune shrubs (hand shears)",
+    "Other"
+  ],
+  "Pet Care": [
+    "Pet Feeding & Water Refresh",
+    "Pet Grooming and bath",
+    "Scoop a litter box (clean litter)",
+    "Walk the Dog",
+    "Other"
+  ],
+  "Seasonal Wardrobe Rotation": [
+    "Folding & Hanging Clothes by Category",
+    "Hanging clothes on hangers",
+    "Other"
+  ],
+  "Sewing & Mending": [
+    "Patching a Garment",
+    "Sewing a Button",
+    "Other"
+  ],
+  "Tech & Smart Home Setup": [
+    "Cable&charger organization",
+    "Pairing/Setting Up Smart Speakers or Cameras",
+    "Setting Up a Printer/Scanner",
+    "Setting Up a WiFi Router",
+    "Other"
+  ],
+  "Tidy Tasks": [
+    "Desk Tidy & Cable Management",
+    "Toy pickup & Organization",
+    "Waste bin management",
+    "Other"
+  ],
+  "Vehicle Maintenance": [
+    "Check & add engine oil",
+    "Check Tyre Pressure & Add Air",
+    "Lubricate bike chain",
+    "Organise the garage",
+    "Other"
+  ]
+}
