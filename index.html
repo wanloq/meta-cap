@@ -22,7 +22,7 @@
           <div>
             <label class="block text-xs font-bold text-slate-700 uppercase mb-1">User ID *</label>
             <select id="userId" required class="w-full p-2 text-sm border rounded focus:ring-2 focus:ring-blue-500 outline-none">
-              <option value="">Select User ID...</option>
+              <option value="">Select Your ID...</option>
             </select>
           </div>
           <div>
@@ -107,217 +107,238 @@
   </div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz4NKQUjIbHLCOEq2KyKFcnLLDWvfzDb7jitgnFU3PrKKkeAslIigWE43BMtPwhMj0x/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz4NKQUjIbHLCOEq2KyKFcnLLDWvfzDb7jitgnFU3PrKKkeAslIigWE43BMtPwhMj0x/exec';
 
-    // PRE-POPULATE DROPDOWNS
-    const userIds = Array.from({length: 100}, (_, i) => `TTA${String(i + 1).padStart(3, '0')}`);
-    const userSelect = document.getElementById('userId');
-    userIds.forEach(id => userSelect.add(new Option(id, id)));
-
-    const categories = [
-      "Childcare & Nursery", "Drinks & Cocktails", "Home events and hosting", "Home Item Organisation", 
-      "Home Safety & Childproofing", "House Maintenance", "Kitchen Tasks", "Laundry Tasks", "Moving and Packing", 
-      "Party Décor", "Patio Activities", "Pet Care", "Seasonal Wardrobe Rotation", "Sewing & Mending", 
-      "Tech & Smart Home Setup", "Tidy Tasks", "Vehicle Maintenance"
-    ];
-    const catSelect = document.getElementById('taskCategory');
-    categories.forEach(c => catSelect.add(new Option(c, c)));
-
-    const subCategories = [
-      "Bottle/Formula Prep", "Arrangement of washed dishes", "Bike Wash & Detail", "Bringing out washed dishes", 
-      "Build a Sandwich / Salad / Plate a Dish", "Cable&charger organization", "Check & add engine oil", 
-      "Check Tyre Pressure & Add Air", "Collecting Clothes Into a Hamper", "Desk Tidy & Cable Management", 
-      "Dish washing", "Drilling", "Duvet into cover / change sheets / make bed", "Folding & Hanging Clothes by Category", 
-      "Fridge & Pantry Audit", "Furniture Assembly and Disassembly", "Gardening", "Hanging clothes on hangers", 
-      "Hanging of Curtain", "Installing Cabinet/Drawer Locks", "Installing outlet covers", "Labeling and Inventory Boxes", 
-      "Leaf Raking and Bagging", "Loading a dish washer", "Lubricate bike chain", "Organise the garage", 
-      "Organize a Junk", "Other", "Packing Boxes for a Move", "Paint walls", "Pairing/Setting Up Smart Speakers or Cameras", 
-      "Party Cleanup", "Party Setup & Takedown", "Patching a Garment", "Pet Feeding & Water Refresh", 
-      "Pet Grooming and bath", "Pool cleaning (skim surface)", "Pressure wash patio", "Pull weeds by hand", 
-      "Putting Away Organized Dishes", "Putting Groceries Away", "Replace showerhead / faucet aerator", "Restock First", 
-      "Scoop a litter box (clean litter)", "Setting Up a Printer/Scanner", "Setting Up a WiFi Router", "Sewing a Button", 
-      "Shelve books", "Stain treatment and hand-wash", "Station Setup & Reorganization", "Stroller Fold/Unfold & Car Seat Install", 
-      "Sweep the porch/ patio/ deck", "Testing Smoke/CO Detectors", "Tighten cabinet hinges and knob", 
-      "Toy pickup & Organization", "Trim a hedge / prune shrubs (hand shears)", "TV Wall Mounting", 
-      "Unloading the Laundry Machine", "Unpacking & Unboxing(New Home)", "Vehicle Loading & Organization", "Walk the Dog", 
-      "Washing bowls with bar soap and foam sponge", "Washing bowls with bar soap and native sponge", 
-      "Washing bowls with bar soap and threadlike sponge", "Washing bowls with bar soap in dish and threadlike sponge", 
-      "Washing bowls with liquid soap and threadlike sponge", "Washing dishes with bar soap and threadlike sponge", 
-      "Washing dishes with bar soap in dish and foam sponge", "Washing kitchenware with bar soap in dish and threadlike sponge", 
-      "Washing other types of kitchenware with bar soap and threadlike sponge", 
-      "Washing other types of kitchenware with bar soap in dish and foam sponge", 
-      "Washing other types of kitchenware with liquid soap and threadlike sponge", 
-      "Washing using native sponge (dried loofah)", "Washing with foam sponge", "Washing with native sponge", 
-      "Waste bin management", "Wipe Kitchen Surfaces"
-    ];
-    const subCatSelect = document.getElementById('taskSubCategory');
-    subCategories.forEach(sc => subCatSelect.add(new Option(sc, sc)));
-
-    let videoCount = 0;
-
-    function addVideoCard() {
-      videoCount++;
-      const vId = videoCount;
-      const container = document.getElementById('videoContainer');
-      const card = document.createElement('div');
-      card.className = 'video-card bg-slate-50 p-5 rounded-lg border-2 border-slate-300 space-y-4 relative';
-      card.id = `videoCard_${vId}`;
-
-      card.innerHTML = `
-        <div class="flex justify-between items-center border-b pb-2 border-slate-300">
-          <span class="font-bold text-md text-slate-800">Video Clip #${vId}</span>
-          ${vId > 1 ? `<button type="button" onclick="removeVideoCard(${vId})" class="text-red-600 text-xs font-semibold hover:underline">Delete Video Clip</button>` : ''}
-        </div>
-
-        <!-- MAIN VIDEO PROPERTIES (CONSTANT) -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-          <div>
-            <label class="block text-xs font-semibold text-slate-600">File Name *</label>
-            <input type="text" name="fileName" placeholder="TTA099-KITCHEN-TASKS-1.MP4" required class="w-full p-2 text-sm border rounded">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-600">File Type *</label>
-            <select name="fileType" class="w-full p-2 text-sm border rounded"><option>MP4</option><option>MOV</option></select>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-600">Total Length (MM:SS) *</label>
-            <input type="text" name="length" placeholder="05:30" required class="w-full p-2 text-sm border rounded">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-600">People Count *</label>
-            <select name="peopleCount" class="w-full p-2 text-sm border rounded">
-              <option>1 person or less</option><option>2 people</option><option>3 people or more</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- SUBTASKS SECTION -->
-        <div class="space-y-3 pt-2">
-          <div class="flex justify-between items-center">
-            <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Subtasks in this Video</span>
-          </div>
-
-          <div id="subtaskContainer_${vId}" class="space-y-3">
-            <!-- Dynamic Subtasks inserted here -->
-          </div>
-        </div>
-      `;
-      container.appendChild(card);
-      addSubtaskCard(vId); // Add default subtask 1 for this video
+  // 1. PRE-POPULATE USER ID DROPDOWN (TTA001 to TTA100)
+  const userSelect = document.getElementById('userId');
+  if (userSelect) {
+    userSelect.innerHTML = '<option value="">Select User ID...</option>';
+    for (let i = 1; i <= 100; i++) {
+      const formattedId = `TTA${String(i).padStart(3, '0')}`;
+      userSelect.add(new Option(formattedId, formattedId));
     }
+  }
 
-    function removeVideoCard(id) {
-      document.getElementById(`videoCard_${id}`).remove();
-    }
+  // 2. FETCH CATEGORIES FROM EXTERNAL JSON FILE
+  let categoryMap = {};
+  const catSelect = document.getElementById('taskCategory');
+  const subCatSelect = document.getElementById('taskSubCategory');
 
-    function addSubtaskCard(vId) {
-      const subContainer = document.getElementById(`subtaskContainer_${vId}`);
-      const subCount = subContainer.children.length + 1;
-      const subCard = document.createElement('div');
-      subCard.className = 'subtask-card bg-white p-4 rounded border border-slate-200 space-y-3 shadow-sm';
+  fetch('categories.json')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Failed to load categories.json file');
+      }
+      return response.json();
+    })
+    .then(data => {
+      categoryMap = data;
 
-      subCard.innerHTML = `
-        <div class="flex justify-between items-center border-b pb-1">
-          <span class="text-xs font-bold text-slate-600">Subtask #${subCount}</span>
-          ${subCount > 1 ? `<button type="button" onclick="this.closest('.subtask-card').remove()" class="text-red-500 text-xs hover:underline">Remove Subtask</button>` : ''}
-        </div>
+      // Reset dropdowns
+      catSelect.innerHTML = '<option value="">Select Category...</option>';
+      subCatSelect.innerHTML = '<option value="">Select Category First...</option>';
 
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-          <div><label class="block text-xs text-slate-600">Task Done *</label><input type="text" name="taskRecorded" placeholder="e.g. Sorting" required class="w-full p-2 text-sm border rounded"></div>
-          <div><label class="block text-xs text-slate-600">Start Time (MM:SS) *</label><input type="text" name="startTime" placeholder="00:00" required class="w-full p-2 text-sm border rounded"></div>
-          <div><label class="block text-xs text-slate-600">Finish Time (MM:SS) *</label><input type="text" name="finishTime" placeholder="01:30" required class="w-full p-2 text-sm border rounded"></div>
-          <div>
-            <label class="block text-xs text-slate-600">Status *</label>
-            <select name="status" class="w-full p-2 text-sm border rounded">
-              <option>Complete</option><option>Interrupted/Incomplete</option><option>Continued in another videoclip</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div><label class="block text-xs text-slate-600">Unique Objects (Separated by commas)</label><input type="text" name="uniqueObjects" placeholder="knife, cutting board, bowl" class="w-full p-2 text-sm border rounded"></div>
-          <div><label class="block text-xs text-slate-600">Dynamic Objects (Separated by commas)</label><input type="text" name="dynamicObjects" placeholder="water, soap foam" class="w-full p-2 text-sm border rounded"></div>
-        </div>
-
-        <div>
-          <label class="block text-xs text-slate-600">Task Description</label>
-          <textarea name="description" rows="2" placeholder="Describe the specific action performed..." class="w-full p-2 text-sm border rounded"></textarea>
-        </div>
-        <button type="button" onclick="addSubtaskCard(${vId})" class="text-xs bg-blue-100 text-blue-700 hover:bg-blue-200 px-2.5 py-1 rounded font-semibold transition">+ Add Subtask</button>
-      `;
-      subContainer.appendChild(subCard);
-    }
-
-    // Add initial video card on load
-    addVideoCard();
-
-    document.getElementById('loggerForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const btn = document.getElementById('submitBtn');
-      btn.disabled = true;
-      btn.innerText = 'Submitting Data...';
-
-      const commonInfo = {
-        userId: document.getElementById('userId').value,
-        recordingDate: document.getElementById('recordingDate').value,
-        deviceType: document.getElementById('deviceType').value,
-        brand: document.getElementById('brand').value,
-        model: document.getElementById('model').value,
-        storage: document.getElementById('storage').value,
-        taskCategory: document.getElementById('taskCategory').value,
-        taskSubCategory: document.getElementById('taskSubCategory').value
-      };
-
-      const videoCards = document.querySelectorAll('.video-card');
-      const videos = Array.from(videoCards).map(card => {
-        const subtaskCards = card.querySelectorAll('.subtask-card');
-        const subtasks = Array.from(subtaskCards).map(sub => ({
-          taskRecorded: sub.querySelector('[name="taskRecorded"]').value,
-          startTime: sub.querySelector('[name="startTime"]').value,
-          finishTime: sub.querySelector('[name="finishTime"]').value,
-          status: sub.querySelector('[name="status"]').value,
-          uniqueObjects: sub.querySelector('[name="uniqueObjects"]').value,
-          dynamicObjects: sub.querySelector('[name="dynamicObjects"]').value,
-          description: sub.querySelector('[name="description"]').value
-        }));
-
-        return {
-          fileName: card.querySelector('[name="fileName"]').value,
-          fileType: card.querySelector('[name="fileType"]').value,
-          length: card.querySelector('[name="length"]').value,
-          peopleCount: card.querySelector('[name="peopleCount"]').value,
-          subtasks: subtasks
-        };
+      // Populate Category Dropdown
+      Object.keys(categoryMap).forEach(category => {
+        catSelect.add(new Option(category, category));
       });
-
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ commonInfo, videos })
-      }).then(() => {
-        alert('All metadata entries and subtasks successfully logged!');
-        //location.reload();
-	
-	// Change submit button to show submitted state without refreshing
-        btn.disabled = false;
-        btn.innerText = 'Submit Another Batch for Today';
-        btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
-        btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
-
-        // Clear ONLY the video entries for the next batch while keeping UserID & Device info:
-        /*
-        document.getElementById('videoContainer').innerHTML = '';
-        videoCount = 0;
-        addVideoCard(); // Adds a fresh Video #1 card
-        */
-
-      }).catch(err => {
-        alert('Error submitting data: ' + err);
-        btn.disabled = false;
-        btn.innerText = 'Submit Log';
-      });
+    })
+    .catch(error => {
+      console.error('Error loading external categories file:', error);
+      if (catSelect) catSelect.innerHTML = '<option value="">Error loading categories</option>';
     });
-  </script>
+
+  // 3. LISTEN FOR CATEGORY SELECTION CHANGE
+  if (catSelect) {
+    catSelect.addEventListener('change', function() {
+      const selectedCategory = this.value;
+      
+      // Clear subcategory choices
+      subCatSelect.innerHTML = '';
+
+      if (selectedCategory && categoryMap[selectedCategory]) {
+        subCatSelect.add(new Option('Select Sub-Category...', ''));
+        categoryMap[selectedCategory].forEach(subCat => {
+          subCatSelect.add(new Option(subCat, subCat));
+        });
+        subCatSelect.disabled = false;
+      } else {
+        subCatSelect.add(new Option('Select Category First...', ''));
+        subCatSelect.disabled = true;
+      }
+    });
+  }
+
+  // 4. DYNAMIC VIDEO CARDS & SUBTASKS MANAGEMENT
+  let videoCount = 0;
+
+  function addVideoCard() {
+    videoCount++;
+    const vId = videoCount;
+    const container = document.getElementById('videoContainer');
+    const card = document.createElement('div');
+    card.className = 'video-card bg-slate-50 p-5 rounded-lg border-2 border-slate-300 space-y-4 relative';
+    card.id = `videoCard_${vId}`;
+
+    card.innerHTML = `
+      <div class="flex justify-between items-center border-b pb-2 border-slate-300">
+        <span class="font-bold text-md text-slate-800">Video Clip #${vId}</span>
+        ${vId > 1 ? `<button type="button" onclick="removeVideoCard(${vId})" class="text-red-600 text-xs font-semibold hover:underline">Delete Video Clip</button>` : ''}
+      </div>
+
+      <!-- MAIN VIDEO PROPERTIES (CONSTANT) -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-600">File Name *</label>
+          <input type="text" name="fileName" placeholder="TTA099-KITCHEN-TASKS-1.MP4" required class="w-full p-2 text-sm border rounded">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600">File Type *</label>
+          <select name="fileType" class="w-full p-2 text-sm border rounded">
+            <option>MP4</option>
+            <option>MOV</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600">Total Length (MM:SS) *</label>
+          <input type="text" name="length" placeholder="05:30" required class="w-full p-2 text-sm border rounded">
+        </div>
+        <div>
+          <label class="block text-xs font-semibold text-slate-600">People Count *</label>
+          <select name="peopleCount" class="w-full p-2 text-sm border rounded">
+            <option>1 person or less</option>
+            <option>2 people</option>
+            <option>3 people or more</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- SUBTASKS SECTION -->
+      <div class="space-y-3 pt-2">
+        <div class="flex justify-between items-center">
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Subtasks in this Video</span>
+          
+        </div>
+
+        <div id="subtaskContainer_${vId}" class="space-y-3">
+          <!-- Dynamic Subtasks inserted here -->
+        </div>
+		<button type="button" onclick="addSubtaskCard(${vId})" class="text-xs bg-blue-100 text-blue-700 hover:bg-blue-200 px-2.5 py-1 rounded font-semibold transition">+ Add Subtask</button>
+      </div>
+    `;
+    container.appendChild(card);
+    addSubtaskCard(vId); // Add default subtask 1 for this video
+  }
+
+  function removeVideoCard(id) {
+    const card = document.getElementById(`videoCard_${id}`);
+    if (card) card.remove();
+  }
+
+  function addSubtaskCard(vId) {
+    const subContainer = document.getElementById(`subtaskContainer_${vId}`);
+    if (!subContainer) return;
+    
+    const subCount = subContainer.children.length + 1;
+    const subCard = document.createElement('div');
+    subCard.className = 'subtask-card bg-white p-4 rounded border border-slate-200 space-y-3 shadow-sm';
+
+    subCard.innerHTML = `
+      <div class="flex justify-between items-center border-b pb-1">
+        <span class="text-xs font-bold text-slate-600">Subtask #${subCount}</span>
+        ${subCount > 1 ? `<button type="button" onclick="this.closest('.subtask-card').remove()" class="text-red-500 text-xs hover:underline">Remove Subtask</button>` : ''}
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+        <div><label class="block text-xs text-slate-600">Task Done *</label><input type="text" name="taskRecorded" placeholder="e.g. Sorting" required class="w-full p-2 text-sm border rounded"></div>
+        <div><label class="block text-xs text-slate-600">Start Time (MM:SS) *</label><input type="text" name="startTime" placeholder="00:00" required class="w-full p-2 text-sm border rounded"></div>
+        <div><label class="block text-xs text-slate-600">Finish Time (MM:SS) *</label><input type="text" name="finishTime" placeholder="01:30" required class="w-full p-2 text-sm border rounded"></div>
+        <div>
+          <label class="block text-xs text-slate-600">Status *</label>
+          <select name="status" class="w-full p-2 text-sm border rounded">
+            <option>Complete</option>
+            <option>Interrupted/Incomplete</option>
+            <option>Continued in another videoclip</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div><label class="block text-xs text-slate-600">Unique Objects (Separated by commas)</label><input type="text" name="uniqueObjects" placeholder="knife, cutting board, bowl" class="w-full p-2 text-sm border rounded"></div>
+        <div><label class="block text-xs text-slate-600">Dynamic Objects (Separated by commas)</label><input type="text" name="dynamicObjects" placeholder="water, soap foam" class="w-full p-2 text-sm border rounded"></div>
+      </div>
+
+      <div>
+        <label class="block text-xs text-slate-600">Task Description</label>
+        <textarea name="description" rows="2" placeholder="Describe the specific action performed..." class="w-full p-2 text-sm border rounded"></textarea>
+      </div>
+    `;
+    subContainer.appendChild(subCard);
+  }
+
+  // Add initial video card on load
+  addVideoCard();
+
+  // 5. FORM SUBMISSION LISTENER
+  document.getElementById('loggerForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.innerText = 'Submitting Data...';
+
+    const commonInfo = {
+      userId: document.getElementById('userId').value,
+      recordingDate: document.getElementById('recordingDate').value,
+      deviceType: document.getElementById('deviceType').value,
+      brand: document.getElementById('brand').value,
+      model: document.getElementById('model').value,
+      storage: document.getElementById('storage').value,
+      taskCategory: document.getElementById('taskCategory').value,
+      taskSubCategory: document.getElementById('taskSubCategory').value
+    };
+
+    const videoCards = document.querySelectorAll('.video-card');
+    const videos = Array.from(videoCards).map(card => {
+      const subtaskCards = card.querySelectorAll('.subtask-card');
+      const subtasks = Array.from(subtaskCards).map(sub => ({
+        taskRecorded: sub.querySelector('[name="taskRecorded"]').value,
+        startTime: sub.querySelector('[name="startTime"]').value,
+        finishTime: sub.querySelector('[name="finishTime"]').value,
+        status: sub.querySelector('[name="status"]').value,
+        uniqueObjects: sub.querySelector('[name="uniqueObjects"]').value,
+        dynamicObjects: sub.querySelector('[name="dynamicObjects"]').value,
+        description: sub.querySelector('[name="description"]').value
+      }));
+
+      return {
+        fileName: card.querySelector('[name="fileName"]').value,
+        fileType: card.querySelector('[name="fileType"]').value,
+        length: card.querySelector('[name="length"]').value,
+        peopleCount: card.querySelector('[name="peopleCount"]').value,
+        subtasks: subtasks
+      };
+    });
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ commonInfo, videos })
+    }).then(() => {
+      alert('All metadata entries and subtasks successfully logged!');
+
+      // Update submit button state without refreshing page
+      btn.disabled = false;
+      btn.innerText = 'Submit Another Batch for Today';
+      btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+      btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+
+    }).catch(err => {
+      alert('Error submitting data: ' + err);
+      btn.disabled = false;
+      btn.innerText = 'Submit Log';
+    });
+  });
+</script>
 </body>
 </html>
