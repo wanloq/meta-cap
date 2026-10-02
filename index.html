@@ -5,59 +5,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Daily Multi-Video Metadata Logger</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'media',
+    }
+  </script>
 </head>
-<body class="bg-slate-100 min-h-screen py-8 px-4 font-sans">
+<body class="bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100 min-h-screen py-4 md:py-8 px-3 sm:px-6 font-sans transition-colors duration-200">
 
-  <div class="max-w-4xl mx-auto bg-white p-6 md:p-8 rounded-xl shadow-md border border-slate-200">
-    <h1 class="text-2xl font-bold text-slate-800 mb-2">Daily Multi-Video Metadata Logger</h1>
-    <p class="text-slate-600 mb-6 text-sm">Log worker and device info, add your video files, and split each clip into distinct subtasks.</p>
+  <div class="max-w-4xl mx-auto bg-white dark:bg-slate-800 p-4 sm:p-6 md:p-8 rounded-xl shadow-md border border-slate-200 dark:border-slate-700">
+    <h1 class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2">Daily Multi-Video Metadata Logger</h1>
+    <p class="text-slate-600 dark:text-slate-400 mb-6 text-xs sm:text-sm">Log worker and device info, add your video files, and split each clip into distinct subtasks.</p>
 
     <form id="loggerForm" class="space-y-6">
       
       <!-- SECTION 1: USER & DEVICE DETAILS -->
-      <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-4">
-        <h2 class="text-lg font-semibold text-slate-700">1. User & Device Details</h2>
+      <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-lg border border-slate-200 dark:border-slate-700 space-y-4">
+        <h2 class="text-md sm:text-lg font-semibold text-slate-700 dark:text-slate-200">1. User & Device Details</h2>
         
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">User ID *</label>
-            <select id="userId" required class="w-full p-2 text-sm border rounded focus:ring-2 focus:ring-blue-500 outline-none">
+            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">User ID *</label>
+            <select id="userId" required class="w-full p-2 text-sm border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
               <option value="">Select Your ID...</option>
             </select>
           </div>
           <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Recording Date *</label>
-            <input type="date" id="recordingDate" required class="w-full p-2 text-sm border rounded focus:ring-2 focus:ring-blue-500 outline-none">
+            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Recording Date *</label>
+            <input type="date" id="recordingDate" required class="w-full p-2 text-sm border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
           </div>
           <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Device Type *</label>
-            <select id="deviceType" class="w-full p-2 text-sm border rounded focus:ring-2 focus:ring-blue-500 outline-none">
+            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Device Type *</label>
+            <select id="deviceType" class="w-full p-2 text-sm border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
               <option>Smartphone</option>
               <option>Other</option>
             </select>
           </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Brand *</label>
-            <select id="brand" required class="w-full p-2 text-sm border rounded focus:ring-2 focus:ring-blue-500 outline-none">
+            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Brand *</label>
+            <select id="brand" required class="w-full p-2 text-sm border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
               <option value="">Select Brand...</option>
-              <option>Samsung</option>
-              <option>iPhone</option>
-              <option>Other</option>
+              <option value="Samsung">Samsung</option>
+              <option value="iPhone">iPhone</option>
+              <option value="Pixel">Pixel</option>
             </select>
           </div>
           <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Model *</label>
-            <input type="text" id="model" placeholder="e.g. iPhone 12 Pro Max" required class="w-full p-2 text-sm border rounded">
+            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Model *</label>
+            <select id="model" required disabled class="w-full p-2 text-sm border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
+              <option value="">Select Brand First...</option>
+            </select>
           </div>
           <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Storage Capacity *</label>
-            <select id="storage" required class="w-full p-2 text-sm border rounded focus:ring-2 focus:ring-blue-500 outline-none">
+            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Storage Capacity *</label>
+            <select id="storage" required class="w-full p-2 text-sm border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
               <option value="">Select Storage...</option>
-              <option>64GB</option>
-              <option>128GB</option>
               <option>256GB</option>
               <option>512GB</option>
               <option>1TB</option>
@@ -67,15 +72,17 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Task Category *</label>
-            <select id="taskCategory" required class="w-full p-2 text-sm border rounded focus:ring-2 focus:ring-blue-500 outline-none">
-              <option value="">Select Category...</option>
+            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Task Type *</label>
+            <select id="taskType" required class="w-full p-2 text-sm border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
+              <option value="">Select Task Type...</option>
+              <option value="Residential">Residential</option>
+              <option value="Commercial">Commercial</option>
             </select>
           </div>
           <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Task Sub-Category *</label>
-            <select id="taskSubCategory" required class="w-full p-2 text-sm border rounded focus:ring-2 focus:ring-blue-500 outline-none">
-              <option value="">Select Sub-Category...</option>
+            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Select Task/Activity *</label>
+            <select id="taskActivity" required disabled class="w-full p-2 text-sm border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
+              <option value="">Select Task Type First...</option>
             </select>
           </div>
         </div>
@@ -83,22 +90,21 @@
 
       <!-- SECTION 2: VIDEO CLIPS & NESTED SUBTASKS -->
       <div class="space-y-4">
-        <h2 class="text-lg font-semibold text-slate-700">2. Video Clips Logged Today</h2>
+        <h2 class="text-md sm:text-lg font-semibold text-slate-700 dark:text-slate-200">2. Video Clips Logged Today</h2>
 
         <div id="videoContainer" class="space-y-6">
           <!-- Dynamic Video Cards appended here -->
         </div>
 
-        <!-- Add Another Video Button at the bottom -->
         <div class="pt-2">
-          <button type="button" onclick="addVideoCard()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-semibold py-2.5 px-4 rounded-lg border border-slate-300 transition flex items-center justify-center gap-2">
+          <button type="button" onclick="addVideoCard()" class="w-full bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-100 font-semibold py-2.5 px-4 rounded-lg border border-slate-300 dark:border-slate-600 transition flex items-center justify-center gap-2">
             <span>+</span> Add Another Video
           </button>
         </div>
       </div>
 
       <!-- SUBMIT BUTTON -->
-      <div class="pt-4 border-t border-slate-200">
+      <div class="pt-4 border-t border-slate-200 dark:border-slate-700">
         <button type="submit" id="submitBtn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-lg shadow transition">
           Submit Log
         </button>
@@ -109,7 +115,7 @@
   <script>
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz4NKQUjIbHLCOEq2KyKFcnLLDWvfzDb7jitgnFU3PrKKkeAslIigWE43BMtPwhMj0x/exec';
 
-  // 1. PRE-POPULATE USER ID DROPDOWN (TTA001 to TTA100)
+  // 1. PRE-POPULATE USER ID DROPDOWN
   const userSelect = document.getElementById('userId');
   if (userSelect) {
     userSelect.innerHTML = '<option value="">Select User ID...</option>';
@@ -119,55 +125,75 @@
     }
   }
 
-  // 2. FETCH CATEGORIES FROM EXTERNAL JSON FILE
-  let categoryMap = {};
-  const catSelect = document.getElementById('taskCategory');
-  const subCatSelect = document.getElementById('taskSubCategory');
+  // 2. DYNAMIC MODEL SELECTION (> Galaxy S21, iPhone 12, Pixel 7)
+  const modelsByBrand = {
+    Samsung: ['Galaxy S22', 'Galaxy S22+', 'Galaxy S22 Ultra', 'Galaxy S23', 'Galaxy S23+', 'Galaxy S23 Ultra', 'Galaxy S24', 'Galaxy S24 Ultra', 'Galaxy Z Fold 5', 'Galaxy Z Flip 5'],
+    iPhone: ['iPhone 13', 'iPhone 13 Pro', 'iPhone 13 Pro Max', 'iPhone 14', 'iPhone 14 Pro', 'iPhone 14 Pro Max', 'iPhone 15', 'iPhone 15 Pro', 'iPhone 15 Pro Max', 'iPhone 16', 'iPhone 16 Pro Max'],
+    Pixel: ['Pixel 8', 'Pixel 8 Pro', 'Pixel 8a', 'Pixel 9', 'Pixel 9 Pro', 'Pixel 9 Pro XL', 'Pixel Fold']
+  };
 
-  fetch('categories.json')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Failed to load categories.json file');
-      }
-      return response.json();
-    })
-    .then(data => {
-      categoryMap = data;
+  const brandSelect = document.getElementById('brand');
+  const modelSelect = document.getElementById('model');
 
-      // Reset dropdowns
-      catSelect.innerHTML = '<option value="">Select Category...</option>';
-      subCatSelect.innerHTML = '<option value="">Select Category First...</option>';
+  brandSelect.addEventListener('change', function() {
+    const selectedBrand = this.value;
+    modelSelect.innerHTML = '';
 
-      // Populate Category Dropdown
-      Object.keys(categoryMap).forEach(category => {
-        catSelect.add(new Option(category, category));
-      });
-    })
-    .catch(error => {
-      console.error('Error loading external categories file:', error);
-      if (catSelect) catSelect.innerHTML = '<option value="">Error loading categories</option>';
-    });
+    if (selectedBrand && modelsByBrand[selectedBrand]) {
+      modelSelect.add(new Option('Select Model...', ''));
+      modelsByBrand[selectedBrand].forEach(m => modelSelect.add(new Option(m, m)));
+      modelSelect.disabled = false;
+    } else {
+      modelSelect.add(new Option('Select Brand First...', ''));
+      modelSelect.disabled = true;
+    }
+  });
 
-  // 3. LISTEN FOR CATEGORY SELECTION CHANGE
-  if (catSelect) {
-    catSelect.addEventListener('change', function() {
-      const selectedCategory = this.value;
-      
-      // Clear subcategory choices
-      subCatSelect.innerHTML = '';
+  // 3. TASK TYPE AND EXTERNALLY LINKED JSON LOADING
+  const taskTypeSelect = document.getElementById('taskType');
+  const taskActivitySelect = document.getElementById('taskActivity');
 
-      if (selectedCategory && categoryMap[selectedCategory]) {
-        subCatSelect.add(new Option('Select Sub-Category...', ''));
-        categoryMap[selectedCategory].forEach(subCat => {
-          subCatSelect.add(new Option(subCat, subCat));
+  taskTypeSelect.addEventListener('change', function() {
+    const type = this.value;
+    taskActivitySelect.innerHTML = '';
+
+    if (!type) {
+      taskActivitySelect.add(new Option('Select Task Type First...', ''));
+      taskActivitySelect.disabled = true;
+      return;
+    }
+
+    const jsonFile = type === 'Residential' ? 'residential_tasks.json' : 'commercial_tasks.json';
+
+    fetch(jsonFile)
+      .then(res => {
+        if (!res.ok) throw new Error('Could not load task file');
+        return res.json();
+      })
+      .then(data => {
+        taskActivitySelect.add(new Option('Select Task/Activity...', ''));
+        
+        Object.keys(data).forEach(groupHeader => {
+          const optgroup = document.createElement('optgroup');
+          optgroup.label = groupHeader;
+          
+          data[groupHeader].forEach(activity => {
+            const option = document.createElement('option');
+            option.value = `${groupHeader} - ${activity}`;
+            option.textContent = activity;
+            optgroup.appendChild(option);
+          });
+          
+          taskActivitySelect.appendChild(optgroup);
         });
-        subCatSelect.disabled = false;
-      } else {
-        subCatSelect.add(new Option('Select Category First...', ''));
-        subCatSelect.disabled = true;
-      }
-    });
-  }
+        
+        taskActivitySelect.disabled = false;
+      })
+      .catch(err => {
+        console.error('Error fetching tasks:', err);
+        taskActivitySelect.innerHTML = '<option value="">Failed to load activities</option>';
+      });
+  });
 
   // 4. DYNAMIC VIDEO CARDS & SUBTASKS MANAGEMENT
   let videoCount = 0;
@@ -177,35 +203,34 @@
     const vId = videoCount;
     const container = document.getElementById('videoContainer');
     const card = document.createElement('div');
-    card.className = 'video-card bg-slate-50 p-5 rounded-lg border-2 border-slate-300 space-y-4 relative';
+    card.className = 'video-card bg-slate-50 dark:bg-slate-800/40 p-4 sm:p-5 rounded-lg border-2 border-slate-300 dark:border-slate-700 space-y-4 relative';
     card.id = `videoCard_${vId}`;
 
     card.innerHTML = `
-      <div class="flex justify-between items-center border-b pb-2 border-slate-300">
-        <span class="font-bold text-md text-slate-800">Video Clip #${vId}</span>
-        ${vId > 1 ? `<button type="button" onclick="removeVideoCard(${vId})" class="text-red-600 text-xs font-semibold hover:underline">Delete Video Clip</button>` : ''}
+      <div class="flex justify-between items-center border-b pb-2 border-slate-300 dark:border-slate-700">
+        <span class="font-bold text-sm sm:text-md text-slate-800 dark:text-slate-200">Video Clip #${vId}</span>
+        ${vId > 1 ? `<button type="button" onclick="removeVideoCard(${vId})" class="text-red-600 dark:text-red-400 text-xs font-semibold hover:underline">Delete Video Clip</button>` : ''}
       </div>
 
-      <!-- MAIN VIDEO PROPERTIES (CONSTANT) -->
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
         <div>
-          <label class="block text-xs font-semibold text-slate-600">File Name *</label>
-          <input type="text" name="fileName" placeholder="TTA099-KITCHEN-TASKS-1.MP4" required class="w-full p-2 text-sm border rounded">
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400">File Name *</label>
+          <input type="text" name="fileName" placeholder="TTA099-KITCHEN-TASKS-1.MP4" required class="w-full p-2 text-sm border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white">
         </div>
         <div>
-          <label class="block text-xs font-semibold text-slate-600">File Type *</label>
-          <select name="fileType" class="w-full p-2 text-sm border rounded">
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400">File Type *</label>
+          <select name="fileType" class="w-full p-2 text-sm border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white">
             <option>MP4</option>
             <option>MOV</option>
           </select>
         </div>
         <div>
-          <label class="block text-xs font-semibold text-slate-600">Total Length (MM:SS) *</label>
-          <input type="text" name="length" placeholder="05:30" required class="w-full p-2 text-sm border rounded">
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400">Total Length (MM:SS) *</label>
+          <input type="text" name="length" placeholder="05:30" required class="w-full p-2 text-sm border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white">
         </div>
         <div>
-          <label class="block text-xs font-semibold text-slate-600">People Count *</label>
-          <select name="peopleCount" class="w-full p-2 text-sm border rounded">
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400">People Count *</label>
+          <select name="peopleCount" class="w-full p-2 text-sm border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white">
             <option>1 person or less</option>
             <option>2 people</option>
             <option>3 people or more</option>
@@ -213,21 +238,17 @@
         </div>
       </div>
 
-      <!-- SUBTASKS SECTION -->
       <div class="space-y-3 pt-2">
         <div class="flex justify-between items-center">
-          <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Subtasks in this Video</span>
-          
+          <span class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Subtasks in this Video</span>
         </div>
 
-        <div id="subtaskContainer_${vId}" class="space-y-3">
-          <!-- Dynamic Subtasks inserted here -->
-        </div>
-		<button type="button" onclick="addSubtaskCard(${vId})" class="text-xs bg-blue-100 text-blue-700 hover:bg-blue-200 px-2.5 py-1 rounded font-semibold transition">+ Add Subtask</button>
+        <div id="subtaskContainer_${vId}" class="space-y-3"></div>
+        <button type="button" onclick="addSubtaskCard(${vId})" class="text-xs bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900 px-2.5 py-1 rounded font-semibold transition">+ Add Subtask</button>
       </div>
     `;
     container.appendChild(card);
-    addSubtaskCard(vId); // Add default subtask 1 for this video
+    addSubtaskCard(vId);
   }
 
   function removeVideoCard(id) {
@@ -241,21 +262,21 @@
     
     const subCount = subContainer.children.length + 1;
     const subCard = document.createElement('div');
-    subCard.className = 'subtask-card bg-white p-4 rounded border border-slate-200 space-y-3 shadow-sm';
+    subCard.className = 'subtask-card bg-white dark:bg-slate-700/60 p-3 sm:p-4 rounded border border-slate-200 dark:border-slate-600 space-y-3 shadow-sm';
 
     subCard.innerHTML = `
-      <div class="flex justify-between items-center border-b pb-1">
-        <span class="text-xs font-bold text-slate-600">Subtask #${subCount}</span>
-        ${subCount > 1 ? `<button type="button" onclick="this.closest('.subtask-card').remove()" class="text-red-500 text-xs hover:underline">Remove Subtask</button>` : ''}
+      <div class="flex justify-between items-center border-b pb-1 border-slate-200 dark:border-slate-600">
+        <span class="text-xs font-bold text-slate-600 dark:text-slate-300">Subtask #${subCount}</span>
+        ${subCount > 1 ? `<button type="button" onclick="this.closest('.subtask-card').remove()" class="text-red-500 dark:text-red-400 text-xs hover:underline">Remove Subtask</button>` : ''}
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-        <div><label class="block text-xs text-slate-600">Task Done *</label><input type="text" name="taskRecorded" placeholder="e.g. Sorting" required class="w-full p-2 text-sm border rounded"></div>
-        <div><label class="block text-xs text-slate-600">Start Time (MM:SS) *</label><input type="text" name="startTime" placeholder="00:00" required class="w-full p-2 text-sm border rounded"></div>
-        <div><label class="block text-xs text-slate-600">Finish Time (MM:SS) *</label><input type="text" name="finishTime" placeholder="01:30" required class="w-full p-2 text-sm border rounded"></div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+        <div><label class="block text-xs text-slate-600 dark:text-slate-400">Task Done *</label><input type="text" name="taskRecorded" placeholder="e.g. Sorting" required class="w-full p-2 text-sm border rounded dark:bg-slate-800 dark:border-slate-600 dark:text-white"></div>
+        <div><label class="block text-xs text-slate-600 dark:text-slate-400">Start Time (MM:SS) *</label><input type="text" name="startTime" placeholder="00:00" required class="w-full p-2 text-sm border rounded dark:bg-slate-800 dark:border-slate-600 dark:text-white"></div>
+        <div><label class="block text-xs text-slate-600 dark:text-slate-400">Finish Time (MM:SS) *</label><input type="text" name="finishTime" placeholder="01:30" required class="w-full p-2 text-sm border rounded dark:bg-slate-800 dark:border-slate-600 dark:text-white"></div>
         <div>
-          <label class="block text-xs text-slate-600">Status *</label>
-          <select name="status" class="w-full p-2 text-sm border rounded">
+          <label class="block text-xs text-slate-600 dark:text-slate-400">Status *</label>
+          <select name="status" class="w-full p-2 text-sm border rounded dark:bg-slate-800 dark:border-slate-600 dark:text-white">
             <option>Complete</option>
             <option>Interrupted/Incomplete</option>
             <option>Continued in another videoclip</option>
@@ -263,23 +284,22 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <div><label class="block text-xs text-slate-600">Unique Objects (Separated by commas)</label><input type="text" name="uniqueObjects" placeholder="knife, cutting board, bowl" class="w-full p-2 text-sm border rounded"></div>
-        <div><label class="block text-xs text-slate-600">Dynamic Objects (Separated by commas)</label><input type="text" name="dynamicObjects" placeholder="water, soap foam" class="w-full p-2 text-sm border rounded"></div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div><label class="block text-xs text-slate-600 dark:text-slate-400">Unique Objects</label><input type="text" name="uniqueObjects" placeholder="knife, cutting board" class="w-full p-2 text-sm border rounded dark:bg-slate-800 dark:border-slate-600 dark:text-white"></div>
+        <div><label class="block text-xs text-slate-600 dark:text-slate-400">Dynamic Objects</label><input type="text" name="dynamicObjects" placeholder="water, soap foam" class="w-full p-2 text-sm border rounded dark:bg-slate-800 dark:border-slate-600 dark:text-white"></div>
       </div>
 
       <div>
-        <label class="block text-xs text-slate-600">Task Description</label>
-        <textarea name="description" rows="2" placeholder="Describe the specific action performed..." class="w-full p-2 text-sm border rounded"></textarea>
+        <label class="block text-xs text-slate-600 dark:text-slate-400">Task Description</label>
+        <textarea name="description" rows="2" placeholder="Describe specific action..." class="w-full p-2 text-sm border rounded dark:bg-slate-800 dark:border-slate-600 dark:text-white"></textarea>
       </div>
     `;
     subContainer.appendChild(subCard);
   }
 
-  // Add initial video card on load
   addVideoCard();
 
-  // 5. FORM SUBMISSION LISTENER
+  // 5. FORM SUBMISSION
   document.getElementById('loggerForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const btn = document.getElementById('submitBtn');
@@ -293,8 +313,8 @@
       brand: document.getElementById('brand').value,
       model: document.getElementById('model').value,
       storage: document.getElementById('storage').value,
-      taskCategory: document.getElementById('taskCategory').value,
-      taskSubCategory: document.getElementById('taskSubCategory').value
+      taskType: document.getElementById('taskType').value,
+      taskActivity: document.getElementById('taskActivity').value
     };
 
     const videoCards = document.querySelectorAll('.video-card');
@@ -326,13 +346,10 @@
       body: JSON.stringify({ commonInfo, videos })
     }).then(() => {
       alert('All metadata entries and subtasks successfully logged!');
-
-      // Update submit button state without refreshing page
       btn.disabled = false;
       btn.innerText = 'Submit Another Batch for Today';
       btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
       btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
-
     }).catch(err => {
       alert('Error submitting data: ' + err);
       btn.disabled = false;
