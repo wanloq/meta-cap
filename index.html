@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daily Multi-Video Metadata Logger</title>
+  <title>Video Metadata Logger</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -11,19 +11,19 @@
     }
   </script>
 </head>
-<body class="bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100 min-h-screen py-4 md:py-8 px-3 sm:px-6 font-sans transition-colors duration-200">
+<body class="bg-slate-100 dark:bg-slate-900 text-slate-900 dark:text-slate-100 min-h-screen py-4 sm:py-6 md:py-8 px-3 sm:px-6 font-sans transition-colors duration-200">
 
   <div class="max-w-4xl mx-auto bg-white dark:bg-slate-800 p-4 sm:p-6 md:p-8 rounded-xl shadow-md border border-slate-200 dark:border-slate-700">
-    <h1 class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2">Daily Multi-Video Metadata Logger</h1>
-    <p class="text-slate-600 dark:text-slate-400 mb-6 text-xs sm:text-sm">Log worker and device info, add your video files, and split each clip into distinct subtasks.</p>
+    <h1 class="text-xl sm:text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2">Video Metadata Logger</h1>
+    <p class="text-slate-600 dark:text-slate-400 mb-6 text-xs sm:text-sm">Log user and device info, select task types, add your video files, and split each clip into distinct subtasks.</p>
 
     <form id="loggerForm" class="space-y-6">
       
       <!-- SECTION 1: USER & DEVICE DETAILS -->
-      <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-lg border border-slate-200 dark:border-slate-700 space-y-4">
-        <h2 class="text-md sm:text-lg font-semibold text-slate-700 dark:text-slate-200">1. User & Device Details</h2>
+      <div class="bg-slate-50 dark:bg-slate-800/50 p-3 sm:p-4 rounded-lg border border-slate-200 dark:border-slate-700 space-y-4">
+        <h2 class="text-base sm:text-lg font-semibold text-slate-700 dark:text-slate-200">1. User & Device Details</h2>
         
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
           <div>
             <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">User ID *</label>
             <select id="userId" required class="w-full p-2 text-sm border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
@@ -43,8 +43,9 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
           <div>
+            <!-- Item 1: Brand (Other replaced with Pixel) -->
             <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Brand *</label>
             <select id="brand" required class="w-full p-2 text-sm border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
               <option value="">Select Brand...</option>
@@ -54,23 +55,26 @@
             </select>
           </div>
           <div>
+            <!-- Item 2: Model dynamic dropdown -->
             <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Model *</label>
             <select id="model" required disabled class="w-full p-2 text-sm border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
               <option value="">Select Brand First...</option>
             </select>
           </div>
           <div>
+            <!-- Item 3: Storage (256GB and above) -->
             <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Storage Capacity *</label>
             <select id="storage" required class="w-full p-2 text-sm border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
               <option value="">Select Storage...</option>
-              <option>256GB</option>
-              <option>512GB</option>
-              <option>1TB</option>
+              <option value="256GB">256GB</option>
+              <option value="512GB">512GB</option>
+              <option value="1TB">1TB</option>
             </select>
           </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Items 4, 5 & 6: Task Type & Dynamic JSON Loading -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
           <div>
             <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Task Type *</label>
             <select id="taskType" required class="w-full p-2 text-sm border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
@@ -86,11 +90,23 @@
             </select>
           </div>
         </div>
+
+        <!-- Item 11: Auto-calculating Totals (Positioned directly below task fields) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 pt-2">
+          <div class="bg-blue-50 dark:bg-slate-700/60 p-3 rounded-lg border border-blue-200 dark:border-slate-600 flex justify-between items-center">
+            <span class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase">Total Videos Added:</span>
+            <span id="totalVideosCount" class="text-base font-bold text-blue-600 dark:text-blue-400">0</span>
+          </div>
+          <div class="bg-blue-50 dark:bg-slate-700/60 p-3 rounded-lg border border-blue-200 dark:border-slate-600 flex justify-between items-center">
+            <span class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase">Total Duration:</span>
+            <span id="totalDuration" class="text-base font-bold text-blue-600 dark:text-blue-400">00:00:00</span>
+          </div>
+        </div>
       </div>
 
       <!-- SECTION 2: VIDEO CLIPS & NESTED SUBTASKS -->
       <div class="space-y-4">
-        <h2 class="text-md sm:text-lg font-semibold text-slate-700 dark:text-slate-200">2. Video Clips Logged Today</h2>
+        <h2 class="text-base sm:text-lg font-semibold text-slate-700 dark:text-slate-200">2. Video Clips Logged Today</h2>
 
         <div id="videoContainer" class="space-y-6">
           <!-- Dynamic Video Cards appended here -->
@@ -106,7 +122,7 @@
       <!-- SUBMIT BUTTON -->
       <div class="pt-4 border-t border-slate-200 dark:border-slate-700">
         <button type="submit" id="submitBtn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-lg shadow transition">
-          Submit Log
+          Submit Metadata
         </button>
       </div>
     </form>
@@ -125,11 +141,27 @@
     }
   }
 
-  // 2. DYNAMIC MODEL SELECTION (> Galaxy S21, iPhone 12, Pixel 7)
+  // 2. DYNAMIC MODEL SELECTION (Starting from Samsung Galaxy S21, iPhone 12, Google Pixel 7)
   const modelsByBrand = {
-    Samsung: ['Galaxy S22', 'Galaxy S22+', 'Galaxy S22 Ultra', 'Galaxy S23', 'Galaxy S23+', 'Galaxy S23 Ultra', 'Galaxy S24', 'Galaxy S24 Ultra', 'Galaxy Z Fold 5', 'Galaxy Z Flip 5'],
-    iPhone: ['iPhone 13', 'iPhone 13 Pro', 'iPhone 13 Pro Max', 'iPhone 14', 'iPhone 14 Pro', 'iPhone 14 Pro Max', 'iPhone 15', 'iPhone 15 Pro', 'iPhone 15 Pro Max', 'iPhone 16', 'iPhone 16 Pro Max'],
-    Pixel: ['Pixel 8', 'Pixel 8 Pro', 'Pixel 8a', 'Pixel 9', 'Pixel 9 Pro', 'Pixel 9 Pro XL', 'Pixel Fold']
+    Samsung: [
+      'Samsung Galaxy S21', 'Samsung Galaxy S21+', 'Samsung Galaxy S21 Ultra', 'Samsung Galaxy S21 FE',
+      'Samsung Galaxy S22', 'Samsung Galaxy S22+', 'Samsung Galaxy S22 Ultra',
+      'Samsung Galaxy S23', 'Samsung Galaxy S23+', 'Samsung Galaxy S23 Ultra',
+      'Samsung Galaxy S24', 'Samsung Galaxy S24+', 'Samsung Galaxy S24 Ultra',
+      'Samsung Galaxy Z Fold 5', 'Samsung Galaxy Z Flip 5'
+    ],
+    iPhone: [
+      'iPhone 12', 'iPhone 12 mini', 'iPhone 12 Pro', 'iPhone 12 Pro Max',
+      'iPhone 13', 'iPhone 13 mini', 'iPhone 13 Pro', 'iPhone 13 Pro Max',
+      'iPhone 14', 'iPhone 14 Plus', 'iPhone 14 Pro', 'iPhone 14 Pro Max',
+      'iPhone 15', 'iPhone 15 Plus', 'iPhone 15 Pro', 'iPhone 15 Pro Max',
+      'iPhone 16', 'iPhone 16 Plus', 'iPhone 16 Pro', 'iPhone 16 Pro Max'
+    ],
+    Pixel: [
+      'Google Pixel 7', 'Google Pixel 7a', 'Google Pixel 7 Pro',
+      'Google Pixel 8', 'Google Pixel 8a', 'Google Pixel 8 Pro',
+      'Google Pixel 9', 'Google Pixel 9 Pro', 'Google Pixel 9 Pro XL', 'Google Pixel Fold'
+    ]
   };
 
   const brandSelect = document.getElementById('brand');
@@ -149,7 +181,7 @@
     }
   });
 
-  // 3. TASK TYPE AND EXTERNALLY LINKED JSON LOADING
+  // 3. TASK TYPE & EXTERNAL JSON LOADING
   const taskTypeSelect = document.getElementById('taskType');
   const taskActivitySelect = document.getElementById('taskActivity');
 
@@ -167,7 +199,7 @@
 
     fetch(jsonFile)
       .then(res => {
-        if (!res.ok) throw new Error('Could not load task file');
+        if (!res.ok) throw new Error('Could not load task JSON file');
         return res.json();
       })
       .then(data => {
@@ -190,7 +222,7 @@
         taskActivitySelect.disabled = false;
       })
       .catch(err => {
-        console.error('Error fetching tasks:', err);
+        console.error('Error fetching task activities:', err);
         taskActivitySelect.innerHTML = '<option value="">Failed to load activities</option>';
       });
   });
@@ -203,33 +235,33 @@
     const vId = videoCount;
     const container = document.getElementById('videoContainer');
     const card = document.createElement('div');
-    card.className = 'video-card bg-slate-50 dark:bg-slate-800/40 p-4 sm:p-5 rounded-lg border-2 border-slate-300 dark:border-slate-700 space-y-4 relative';
+    card.className = 'video-card bg-slate-50 dark:bg-slate-800/40 p-3 sm:p-5 rounded-lg border-2 border-slate-300 dark:border-slate-700 space-y-4 relative';
     card.id = `videoCard_${vId}`;
 
     card.innerHTML = `
       <div class="flex justify-between items-center border-b pb-2 border-slate-300 dark:border-slate-700">
-        <span class="font-bold text-sm sm:text-md text-slate-800 dark:text-slate-200">Video Clip #${vId}</span>
+        <span class="font-bold text-sm sm:text-base text-slate-800 dark:text-slate-200">Video Clip #${vId}</span>
         ${vId > 1 ? `<button type="button" onclick="removeVideoCard(${vId})" class="text-red-600 dark:text-red-400 text-xs font-semibold hover:underline">Delete Video Clip</button>` : ''}
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
         <div>
-          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400">File Name *</label>
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">File Name *</label>
           <input type="text" name="fileName" placeholder="TTA099-KITCHEN-TASKS-1.MP4" required class="w-full p-2 text-sm border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white">
         </div>
         <div>
-          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400">File Type *</label>
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">File Type *</label>
           <select name="fileType" class="w-full p-2 text-sm border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white">
             <option>MP4</option>
             <option>MOV</option>
           </select>
         </div>
         <div>
-          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400">Total Length (MM:SS) *</label>
-          <input type="text" name="length" placeholder="05:30" required class="w-full p-2 text-sm border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white">
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Total Length (MM:SS or HH:MM:SS) *</label>
+          <input type="text" name="length" placeholder="05:30" required oninput="updateTotals()" class="video-length-input w-full p-2 text-sm border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white">
         </div>
         <div>
-          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400">People Count *</label>
+          <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">People Count *</label>
           <select name="peopleCount" class="w-full p-2 text-sm border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white">
             <option>1 person or less</option>
             <option>2 people</option>
@@ -249,11 +281,15 @@
     `;
     container.appendChild(card);
     addSubtaskCard(vId);
+    updateTotals();
   }
 
   function removeVideoCard(id) {
     const card = document.getElementById(`videoCard_${id}`);
-    if (card) card.remove();
+    if (card) {
+      card.remove();
+      updateTotals();
+    }
   }
 
   function addSubtaskCard(vId) {
@@ -271,11 +307,11 @@
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
-        <div><label class="block text-xs text-slate-600 dark:text-slate-400">Task Done *</label><input type="text" name="taskRecorded" placeholder="e.g. Sorting" required class="w-full p-2 text-sm border rounded dark:bg-slate-800 dark:border-slate-600 dark:text-white"></div>
-        <div><label class="block text-xs text-slate-600 dark:text-slate-400">Start Time (MM:SS) *</label><input type="text" name="startTime" placeholder="00:00" required class="w-full p-2 text-sm border rounded dark:bg-slate-800 dark:border-slate-600 dark:text-white"></div>
-        <div><label class="block text-xs text-slate-600 dark:text-slate-400">Finish Time (MM:SS) *</label><input type="text" name="finishTime" placeholder="01:30" required class="w-full p-2 text-sm border rounded dark:bg-slate-800 dark:border-slate-600 dark:text-white"></div>
+        <div><label class="block text-xs text-slate-600 dark:text-slate-400 mb-1">Task Done *</label><input type="text" name="taskRecorded" placeholder="e.g. Sorting" required class="w-full p-2 text-sm border rounded dark:bg-slate-800 dark:border-slate-600 dark:text-white"></div>
+        <div><label class="block text-xs text-slate-600 dark:text-slate-400 mb-1">Start Time (MM:SS) *</label><input type="text" name="startTime" placeholder="00:00" required class="w-full p-2 text-sm border rounded dark:bg-slate-800 dark:border-slate-600 dark:text-white"></div>
+        <div><label class="block text-xs text-slate-600 dark:text-slate-400 mb-1">Finish Time (MM:SS) *</label><input type="text" name="finishTime" placeholder="01:30" required class="w-full p-2 text-sm border rounded dark:bg-slate-800 dark:border-slate-600 dark:text-white"></div>
         <div>
-          <label class="block text-xs text-slate-600 dark:text-slate-400">Status *</label>
+          <label class="block text-xs text-slate-600 dark:text-slate-400 mb-1">Status *</label>
           <select name="status" class="w-full p-2 text-sm border rounded dark:bg-slate-800 dark:border-slate-600 dark:text-white">
             <option>Complete</option>
             <option>Interrupted/Incomplete</option>
@@ -285,21 +321,50 @@
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <div><label class="block text-xs text-slate-600 dark:text-slate-400">Unique Objects</label><input type="text" name="uniqueObjects" placeholder="knife, cutting board" class="w-full p-2 text-sm border rounded dark:bg-slate-800 dark:border-slate-600 dark:text-white"></div>
-        <div><label class="block text-xs text-slate-600 dark:text-slate-400">Dynamic Objects</label><input type="text" name="dynamicObjects" placeholder="water, soap foam" class="w-full p-2 text-sm border rounded dark:bg-slate-800 dark:border-slate-600 dark:text-white"></div>
+        <div><label class="block text-xs text-slate-600 dark:text-slate-400 mb-1">Unique Objects</label><input type="text" name="uniqueObjects" placeholder="knife, cutting board" class="w-full p-2 text-sm border rounded dark:bg-slate-800 dark:border-slate-600 dark:text-white"></div>
+        <div><label class="block text-xs text-slate-600 dark:text-slate-400 mb-1">Dynamic Objects</label><input type="text" name="dynamicObjects" placeholder="water, soap foam" class="w-full p-2 text-sm border rounded dark:bg-slate-800 dark:border-slate-600 dark:text-white"></div>
       </div>
 
       <div>
-        <label class="block text-xs text-slate-600 dark:text-slate-400">Task Description</label>
+        <label class="block text-xs text-slate-600 dark:text-slate-400 mb-1">Task Description</label>
         <textarea name="description" rows="2" placeholder="Describe specific action..." class="w-full p-2 text-sm border rounded dark:bg-slate-800 dark:border-slate-600 dark:text-white"></textarea>
       </div>
     `;
     subContainer.appendChild(subCard);
   }
 
+  // 5. CALCULATE TOTAL VIDEOS & TOTAL DURATION (HH:MM:SS)
+  function updateTotals() {
+    const videoCards = document.querySelectorAll('.video-card');
+    document.getElementById('totalVideosCount').innerText = videoCards.length;
+
+    let totalSeconds = 0;
+    videoCards.forEach(card => {
+      const lengthInput = card.querySelector('[name="length"]');
+      if (lengthInput && lengthInput.value) {
+        const parts = lengthInput.value.trim().split(':').map(p => parseInt(p, 10));
+        if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+          totalSeconds += parts[0] * 60 + parts[1];
+        } else if (parts.length === 3 && !isNaN(parts[0]) && !isNaN(parts[1]) && !isNaN(parts[2])) {
+          totalSeconds += parts[0] * 3600 + parts[1] * 60 + parts[2];
+        }
+      }
+    });
+
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    const formattedTime = [hours, minutes, seconds]
+      .map(v => String(v).padStart(2, '0'))
+      .join(':');
+
+    document.getElementById('totalDuration').innerText = formattedTime;
+  }
+
   addVideoCard();
 
-  // 5. FORM SUBMISSION
+  // 6. FORM SUBMISSION
   document.getElementById('loggerForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const btn = document.getElementById('submitBtn');
@@ -314,7 +379,9 @@
       model: document.getElementById('model').value,
       storage: document.getElementById('storage').value,
       taskType: document.getElementById('taskType').value,
-      taskActivity: document.getElementById('taskActivity').value
+      taskActivity: document.getElementById('taskActivity').value,
+      totalVideos: document.getElementById('totalVideosCount').innerText,
+      totalDuration: document.getElementById('totalDuration').innerText
     };
 
     const videoCards = document.querySelectorAll('.video-card');
