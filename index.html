@@ -65,6 +65,7 @@
             <!-- Item 3: Storage (256GB and above) -->
             <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase mb-1">Storage Capacity *</label>
             <select id="storage" required class="w-full p-2 text-sm border rounded dark:bg-slate-700 dark:border-slate-600 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none">
+              <option value="">Select Storage...</option>
               <option value="">256GB</option>
               <option value="512GB">512GB</option>
               <option value="1TB">1TB</option>
@@ -414,23 +415,23 @@
         };
       });
     
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ commonInfo, videos })
-      }).then(() => {
-        alert('All metadata entries and subtasks successfully logged!');
-        btn.disabled = false;
-        btn.innerText = 'Submit Another Batch for Today';
-        btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
-        btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
-      }).catch(err => {
-        alert('Error submitting data: ' + err);
-        btn.disabled = false;
-        btn.innerText = 'Submit Log';
-      });
-    });
+    //   fetch(SCRIPT_URL, {
+    //     method: 'POST',
+    //     mode: 'no-cors',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify({ commonInfo, videos })
+    //   }).then(() => {
+    //     alert('All metadata entries and subtasks successfully logged!');
+    //     btn.disabled = false;
+    //     btn.innerText = 'Submit Another Batch for Today';
+    //     btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+    //     btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+    //   }).catch(err => {
+    //     alert('Error submitting data: ' + err);
+    //     btn.disabled = false;
+    //     btn.innerText = 'Submit Log';
+    //   });
+    // });
 
     
   // // 6. FORM SUBMISSION
@@ -475,6 +476,43 @@
   //     };
   //   });
 
+    fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ commonInfo, videos })
+      }).then(() => {
+        alert('All metadata entries and subtasks successfully logged!');
+  
+        // Change button state to a Reset/New Batch button
+        btn.disabled = false;
+        btn.type = 'button'; // Prevent form submit action
+        btn.innerText = 'Start Another Batch for Today';
+        btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+        btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+  
+        // Attach reset listener for starting a new batch
+        btn.onclick = function() {
+          // Clear all video cards from the DOM
+          document.getElementById('videoContainer').innerHTML = '';
+          videoCount = 0;
+  
+          // Re-add a single fresh video card
+          addVideoCard();
+  
+          // Restore button back to normal Submit state
+          btn.type = 'submit';
+          btn.innerText = 'Submit Metadata';
+          btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+          btn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
+          btn.onclick = null; // Remove custom click handler
+        };
+  
+      }).catch(err => {
+        alert('Error submitting data: ' + err);
+        btn.disabled = false;
+        btn.innerText = 'Submit Log';
+      });
   //   fetch(SCRIPT_URL, {
   //     method: 'POST',
   //     mode: 'no-cors',
