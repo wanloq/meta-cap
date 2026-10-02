@@ -364,7 +364,7 @@
 
   addVideoCard();
 
-    // 6. FORM SUBMISSION & RESET FOR NEW BATCH
+    // 6. FORM SUBMISSION & ENTIRE FORM RESET FOR NEW BATCH
     document.getElementById('loggerForm').addEventListener('submit', function(e) {
       e.preventDefault();
   
@@ -422,28 +422,43 @@
       }).then(() => {
         alert('All metadata entries and subtasks successfully logged!');
   
-        // Change button state to a standalone non-submit action button
+        // Change button state to a standalone action button
         btn.disabled = false;
-        btn.setAttribute('type', 'button'); // Crucial: Prevents form re-submission
+        btn.setAttribute('type', 'button'); // Prevents standard form submit
         btn.innerText = 'Submit New Batch';
         btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
         btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
   
-        // Click handler to reset video cards only
+        // Click handler to reset the ENTIRE form
         btn.onclick = function() {
-          // Clear all current video cards
+          const form = document.getElementById('loggerForm');
+  
+          // 1. Reset standard form inputs (User ID, Date, Storage, etc.)
+          form.reset();
+  
+          // 2. Disable & reset dynamic model dropdown
+          const modelSelect = document.getElementById('model');
+          modelSelect.innerHTML = '<option value="">Select Brand First...</option>';
+          modelSelect.disabled = true;
+  
+          // 3. Disable & reset dynamic task/activity dropdown
+          const taskActivitySelect = document.getElementById('taskActivity');
+          taskActivitySelect.innerHTML = '<option value="">Select Task Type First...</option>';
+          taskActivitySelect.disabled = true;
+  
+          // 4. Clear all video cards and reset counters
           document.getElementById('videoContainer').innerHTML = '';
           videoCount = 0;
   
-          // Add a fresh single video card and update totals
+          // 5. Add a single fresh video card & update calculated totals
           addVideoCard();
   
-          // Revert button back to submit mode
+          // 6. Revert button back to normal Submit state
           btn.setAttribute('type', 'submit');
           btn.innerText = 'Submit Metadata';
           btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
           btn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
-          btn.onclick = null; // Clean up click listener
+          btn.onclick = null; // Clean up handler
         };
   
       }).catch(err => {
