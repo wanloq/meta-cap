@@ -476,60 +476,60 @@
   //     };
   //   });
 
+    // fetch(SCRIPT_URL, {
+    //     method: 'POST',
+    //     mode: 'no-cors',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify({ commonInfo, videos })
+    //   }).then(() => {
+    //     alert('All metadata entries and subtasks successfully logged!');
+  
+    //     // Change button state to a Reset/New Batch button
+    //     btn.disabled = false;
+    //     btn.type = 'button'; // Prevent form submit action
+    //     btn.innerText = 'Start Another Batch for Today';
+    //     btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+    //     btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+  
+    //     // Attach reset listener for starting a new batch
+    //     btn.onclick = function() {
+    //       // Clear all video cards from the DOM
+    //       document.getElementById('videoContainer').innerHTML = '';
+    //       videoCount = 0;
+  
+    //       // Re-add a single fresh video card
+    //       addVideoCard();
+  
+    //       // Restore button back to normal Submit state
+    //       btn.type = 'submit';
+    //       btn.innerText = 'Submit Metadata';
+    //       btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+    //       btn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
+    //       btn.onclick = null; // Remove custom click handler
+    //     };
+  
+    //   }).catch(err => {
+    //     alert('Error submitting data: ' + err);
+    //     btn.disabled = false;
+    //     btn.innerText = 'Submit Log';
+    //   });
     fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ commonInfo, videos })
-      }).then(() => {
-        alert('All metadata entries and subtasks successfully logged!');
-  
-        // Change button state to a Reset/New Batch button
-        btn.disabled = false;
-        btn.type = 'button'; // Prevent form submit action
-        btn.innerText = 'Start Another Batch for Today';
-        btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
-        btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
-  
-        // Attach reset listener for starting a new batch
-        btn.onclick = function() {
-          // Clear all video cards from the DOM
-          document.getElementById('videoContainer').innerHTML = '';
-          videoCount = 0;
-  
-          // Re-add a single fresh video card
-          addVideoCard();
-  
-          // Restore button back to normal Submit state
-          btn.type = 'submit';
-          btn.innerText = 'Submit Metadata';
-          btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
-          btn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
-          btn.onclick = null; // Remove custom click handler
-        };
-  
-      }).catch(err => {
-        alert('Error submitting data: ' + err);
-        btn.disabled = false;
-        btn.innerText = 'Submit Log';
-      });
-  //   fetch(SCRIPT_URL, {
-  //     method: 'POST',
-  //     mode: 'no-cors',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({ commonInfo, videos })
-  //   }).then(() => {
-  //     alert('All metadata entries and subtasks successfully logged!');
-  //     btn.disabled = false;
-  //     btn.innerText = 'Submit Another Batch for Today';
-  //     btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
-  //     btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
-  //   }).catch(err => {
-  //     alert('Error submitting data: ' + err);
-  //     btn.disabled = false;
-  //     btn.innerText = 'Submit Log';
-  //   });
-  // });
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ commonInfo, videos })
+    }).then(() => {
+      alert('All metadata entries and subtasks successfully logged!');
+      btn.disabled = false;
+      btn.innerText = 'Submit Another Batch for Today';
+      btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+      btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+    }).catch(err => {
+      alert('Error submitting data: ' + err);
+      btn.disabled = false;
+      btn.innerText = 'Submit Log';
+    });
+  });
 </script>
 </body>
 </html>
