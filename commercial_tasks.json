@@ -1,0 +1,19 @@
+{
+  "Facility Maintenance": [
+    "Floor Scrubbing & Polishing",
+    "Restroom Sanitization",
+    "High Dusting & Ventilation",
+    "Trash & Waste Management"
+  ],
+  "Office & Workplace Care": [
+    "Desk & Workstation Sanitization",
+    "Glass & Window Cleaning",
+    "Common Area Maintenance",
+    "Conference Room Reset"
+  ],
+  "Inventory & Logistics": [
+    "Stockroom Sorting",
+    "Supply Restocking",
+    "Equipment Disinfection"
+  ]
+}
