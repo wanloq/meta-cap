@@ -364,22 +364,21 @@
 
   addVideoCard();
 
-    // 6. FORM SUBMISSION WITH CONFIRMATION PROMPT
+    // 6. FORM SUBMISSION & RESET FOR NEW BATCH
     document.getElementById('loggerForm').addEventListener('submit', function(e) {
       e.preventDefault();
-    
-      // Ask for confirmation before proceeding
+  
+      // Ask for confirmation before submitting
       const userConfirmed = confirm("Are you sure you want to submit this metadata batch? Click 'Cancel' to continue editing.");
       
-      // If the user clicks "Cancel", stop submission and return to editing
       if (!userConfirmed) {
         return;
       }
-    
+  
       const btn = document.getElementById('submitBtn');
       btn.disabled = true;
       btn.innerText = 'Submitting Data...';
-    
+  
       const commonInfo = {
         userId: document.getElementById('userId').value,
         recordingDate: document.getElementById('recordingDate').value,
@@ -392,7 +391,7 @@
         totalVideos: document.getElementById('totalVideosCount').innerText,
         totalDuration: document.getElementById('totalDuration').innerText
       };
-    
+  
       const videoCards = document.querySelectorAll('.video-card');
       const videos = Array.from(videoCards).map(card => {
         const subtaskCards = card.querySelectorAll('.subtask-card');
@@ -405,7 +404,7 @@
           dynamicObjects: sub.querySelector('[name="dynamicObjects"]').value,
           description: sub.querySelector('[name="description"]').value
         }));
-    
+  
         return {
           fileName: card.querySelector('[name="fileName"]').value,
           fileType: card.querySelector('[name="fileType"]').value,
@@ -414,122 +413,45 @@
           subtasks: subtasks
         };
       });
-    
-    //   fetch(SCRIPT_URL, {
-    //     method: 'POST',
-    //     mode: 'no-cors',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({ commonInfo, videos })
-    //   }).then(() => {
-    //     alert('All metadata entries and subtasks successfully logged!');
-    //     btn.disabled = false;
-    //     btn.innerText = 'Submit Another Batch for Today';
-    //     btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
-    //     btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
-    //   }).catch(err => {
-    //     alert('Error submitting data: ' + err);
-    //     btn.disabled = false;
-    //     btn.innerText = 'Submit Log';
-    //   });
-    // });
-
-    
-  // // 6. FORM SUBMISSION
-  // document.getElementById('loggerForm').addEventListener('submit', function(e) {
-  //   e.preventDefault();
-  //   const btn = document.getElementById('submitBtn');
-  //   btn.disabled = true;
-  //   btn.innerText = 'Submitting Data...';
-
-  //   const commonInfo = {
-  //     userId: document.getElementById('userId').value,
-  //     recordingDate: document.getElementById('recordingDate').value,
-  //     deviceType: document.getElementById('deviceType').value,
-  //     brand: document.getElementById('brand').value,
-  //     model: document.getElementById('model').value,
-  //     storage: document.getElementById('storage').value,
-  //     taskType: document.getElementById('taskType').value,
-  //     taskActivity: document.getElementById('taskActivity').value,
-  //     totalVideos: document.getElementById('totalVideosCount').innerText,
-  //     totalDuration: document.getElementById('totalDuration').innerText
-  //   };
-
-  //   const videoCards = document.querySelectorAll('.video-card');
-  //   const videos = Array.from(videoCards).map(card => {
-  //     const subtaskCards = card.querySelectorAll('.subtask-card');
-  //     const subtasks = Array.from(subtaskCards).map(sub => ({
-  //       taskRecorded: sub.querySelector('[name="taskRecorded"]').value,
-  //       startTime: sub.querySelector('[name="startTime"]').value,
-  //       finishTime: sub.querySelector('[name="finishTime"]').value,
-  //       status: sub.querySelector('[name="status"]').value,
-  //       uniqueObjects: sub.querySelector('[name="uniqueObjects"]').value,
-  //       dynamicObjects: sub.querySelector('[name="dynamicObjects"]').value,
-  //       description: sub.querySelector('[name="description"]').value
-  //     }));
-
-  //     return {
-  //       fileName: card.querySelector('[name="fileName"]').value,
-  //       fileType: card.querySelector('[name="fileType"]').value,
-  //       length: card.querySelector('[name="length"]').value,
-  //       peopleCount: card.querySelector('[name="peopleCount"]').value,
-  //       subtasks: subtasks
-  //     };
-  //   });
-
-    // fetch(SCRIPT_URL, {
-    //     method: 'POST',
-    //     mode: 'no-cors',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({ commonInfo, videos })
-    //   }).then(() => {
-    //     alert('All metadata entries and subtasks successfully logged!');
   
-    //     // Change button state to a Reset/New Batch button
-    //     btn.disabled = false;
-    //     btn.type = 'button'; // Prevent form submit action
-    //     btn.innerText = 'Start Another Batch for Today';
-    //     btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
-    //     btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ commonInfo, videos })
+      }).then(() => {
+        alert('All metadata entries and subtasks successfully logged!');
   
-    //     // Attach reset listener for starting a new batch
-    //     btn.onclick = function() {
-    //       // Clear all video cards from the DOM
-    //       document.getElementById('videoContainer').innerHTML = '';
-    //       videoCount = 0;
+        // Change button state to a standalone non-submit action button
+        btn.disabled = false;
+        btn.setAttribute('type', 'button'); // Crucial: Prevents form re-submission
+        btn.innerText = 'Submit New Batch';
+        btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+        btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
   
-    //       // Re-add a single fresh video card
-    //       addVideoCard();
+        // Click handler to reset video cards only
+        btn.onclick = function() {
+          // Clear all current video cards
+          document.getElementById('videoContainer').innerHTML = '';
+          videoCount = 0;
   
-    //       // Restore button back to normal Submit state
-    //       btn.type = 'submit';
-    //       btn.innerText = 'Submit Metadata';
-    //       btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
-    //       btn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
-    //       btn.onclick = null; // Remove custom click handler
-    //     };
+          // Add a fresh single video card and update totals
+          addVideoCard();
   
-    //   }).catch(err => {
-    //     alert('Error submitting data: ' + err);
-    //     btn.disabled = false;
-    //     btn.innerText = 'Submit Log';
-    //   });
-    fetch(SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ commonInfo, videos })
-    }).then(() => {
-      alert('All metadata entries and subtasks successfully logged!');
-      btn.disabled = false;
-      btn.innerText = 'Submit Another Batch for Today';
-      btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
-      btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
-    }).catch(err => {
-      alert('Error submitting data: ' + err);
-      btn.disabled = false;
-      btn.innerText = 'Submit Log';
+          // Revert button back to submit mode
+          btn.setAttribute('type', 'submit');
+          btn.innerText = 'Submit Metadata';
+          btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+          btn.classList.add('bg-emerald-600', 'hover:bg-emerald-700');
+          btn.onclick = null; // Clean up click listener
+        };
+  
+      }).catch(err => {
+        alert('Error submitting data: ' + err);
+        btn.disabled = false;
+        btn.innerText = 'Submit Metadata';
+      });
     });
-  });
 </script>
 </body>
 </html>
