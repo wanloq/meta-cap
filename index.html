@@ -363,65 +363,135 @@
 
   addVideoCard();
 
-  // 6. FORM SUBMISSION
-  document.getElementById('loggerForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const btn = document.getElementById('submitBtn');
-    btn.disabled = true;
-    btn.innerText = 'Submitting Data...';
-
-    const commonInfo = {
-      userId: document.getElementById('userId').value,
-      recordingDate: document.getElementById('recordingDate').value,
-      deviceType: document.getElementById('deviceType').value,
-      brand: document.getElementById('brand').value,
-      model: document.getElementById('model').value,
-      storage: document.getElementById('storage').value,
-      taskType: document.getElementById('taskType').value,
-      taskActivity: document.getElementById('taskActivity').value,
-      totalVideos: document.getElementById('totalVideosCount').innerText,
-      totalDuration: document.getElementById('totalDuration').innerText
-    };
-
-    const videoCards = document.querySelectorAll('.video-card');
-    const videos = Array.from(videoCards).map(card => {
-      const subtaskCards = card.querySelectorAll('.subtask-card');
-      const subtasks = Array.from(subtaskCards).map(sub => ({
-        taskRecorded: sub.querySelector('[name="taskRecorded"]').value,
-        startTime: sub.querySelector('[name="startTime"]').value,
-        finishTime: sub.querySelector('[name="finishTime"]').value,
-        status: sub.querySelector('[name="status"]').value,
-        uniqueObjects: sub.querySelector('[name="uniqueObjects"]').value,
-        dynamicObjects: sub.querySelector('[name="dynamicObjects"]').value,
-        description: sub.querySelector('[name="description"]').value
-      }));
-
-      return {
-        fileName: card.querySelector('[name="fileName"]').value,
-        fileType: card.querySelector('[name="fileType"]').value,
-        length: card.querySelector('[name="length"]').value,
-        peopleCount: card.querySelector('[name="peopleCount"]').value,
-        subtasks: subtasks
+    // 6. FORM SUBMISSION WITH CONFIRMATION PROMPT
+    document.getElementById('loggerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+    
+      // Ask for confirmation before proceeding
+      const userConfirmed = confirm("Are you sure you want to submit this metadata batch? Click 'Cancel' to continue editing.");
+      
+      // If the user clicks "Cancel", stop submission and return to editing
+      if (!userConfirmed) {
+        return;
+      }
+    
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.innerText = 'Submitting Data...';
+    
+      const commonInfo = {
+        userId: document.getElementById('userId').value,
+        recordingDate: document.getElementById('recordingDate').value,
+        deviceType: document.getElementById('deviceType').value,
+        brand: document.getElementById('brand').value,
+        model: document.getElementById('model').value,
+        storage: document.getElementById('storage').value,
+        taskType: document.getElementById('taskType').value,
+        taskActivity: document.getElementById('taskActivity').value,
+        totalVideos: document.getElementById('totalVideosCount').innerText,
+        totalDuration: document.getElementById('totalDuration').innerText
       };
+    
+      const videoCards = document.querySelectorAll('.video-card');
+      const videos = Array.from(videoCards).map(card => {
+        const subtaskCards = card.querySelectorAll('.subtask-card');
+        const subtasks = Array.from(subtaskCards).map(sub => ({
+          taskRecorded: sub.querySelector('[name="taskRecorded"]').value,
+          startTime: sub.querySelector('[name="startTime"]').value,
+          finishTime: sub.querySelector('[name="finishTime"]').value,
+          status: sub.querySelector('[name="status"]').value,
+          uniqueObjects: sub.querySelector('[name="uniqueObjects"]').value,
+          dynamicObjects: sub.querySelector('[name="dynamicObjects"]').value,
+          description: sub.querySelector('[name="description"]').value
+        }));
+    
+        return {
+          fileName: card.querySelector('[name="fileName"]').value,
+          fileType: card.querySelector('[name="fileType"]').value,
+          length: card.querySelector('[name="length"]').value,
+          peopleCount: card.querySelector('[name="peopleCount"]').value,
+          subtasks: subtasks
+        };
+      });
+    
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ commonInfo, videos })
+      }).then(() => {
+        alert('All metadata entries and subtasks successfully logged!');
+        btn.disabled = false;
+        btn.innerText = 'Submit Another Batch for Today';
+        btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+        btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+      }).catch(err => {
+        alert('Error submitting data: ' + err);
+        btn.disabled = false;
+        btn.innerText = 'Submit Log';
+      });
     });
 
-    fetch(SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ commonInfo, videos })
-    }).then(() => {
-      alert('All metadata entries and subtasks successfully logged!');
-      btn.disabled = false;
-      btn.innerText = 'Submit Another Batch for Today';
-      btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
-      btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
-    }).catch(err => {
-      alert('Error submitting data: ' + err);
-      btn.disabled = false;
-      btn.innerText = 'Submit Log';
-    });
-  });
+    
+  // // 6. FORM SUBMISSION
+  // document.getElementById('loggerForm').addEventListener('submit', function(e) {
+  //   e.preventDefault();
+  //   const btn = document.getElementById('submitBtn');
+  //   btn.disabled = true;
+  //   btn.innerText = 'Submitting Data...';
+
+  //   const commonInfo = {
+  //     userId: document.getElementById('userId').value,
+  //     recordingDate: document.getElementById('recordingDate').value,
+  //     deviceType: document.getElementById('deviceType').value,
+  //     brand: document.getElementById('brand').value,
+  //     model: document.getElementById('model').value,
+  //     storage: document.getElementById('storage').value,
+  //     taskType: document.getElementById('taskType').value,
+  //     taskActivity: document.getElementById('taskActivity').value,
+  //     totalVideos: document.getElementById('totalVideosCount').innerText,
+  //     totalDuration: document.getElementById('totalDuration').innerText
+  //   };
+
+  //   const videoCards = document.querySelectorAll('.video-card');
+  //   const videos = Array.from(videoCards).map(card => {
+  //     const subtaskCards = card.querySelectorAll('.subtask-card');
+  //     const subtasks = Array.from(subtaskCards).map(sub => ({
+  //       taskRecorded: sub.querySelector('[name="taskRecorded"]').value,
+  //       startTime: sub.querySelector('[name="startTime"]').value,
+  //       finishTime: sub.querySelector('[name="finishTime"]').value,
+  //       status: sub.querySelector('[name="status"]').value,
+  //       uniqueObjects: sub.querySelector('[name="uniqueObjects"]').value,
+  //       dynamicObjects: sub.querySelector('[name="dynamicObjects"]').value,
+  //       description: sub.querySelector('[name="description"]').value
+  //     }));
+
+  //     return {
+  //       fileName: card.querySelector('[name="fileName"]').value,
+  //       fileType: card.querySelector('[name="fileType"]').value,
+  //       length: card.querySelector('[name="length"]').value,
+  //       peopleCount: card.querySelector('[name="peopleCount"]').value,
+  //       subtasks: subtasks
+  //     };
+  //   });
+
+  //   fetch(SCRIPT_URL, {
+  //     method: 'POST',
+  //     mode: 'no-cors',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({ commonInfo, videos })
+  //   }).then(() => {
+  //     alert('All metadata entries and subtasks successfully logged!');
+  //     btn.disabled = false;
+  //     btn.innerText = 'Submit Another Batch for Today';
+  //     btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+  //     btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+  //   }).catch(err => {
+  //     alert('Error submitting data: ' + err);
+  //     btn.disabled = false;
+  //     btn.innerText = 'Submit Log';
+  //   });
+  // });
 </script>
 </body>
 </html>
